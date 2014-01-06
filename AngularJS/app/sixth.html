@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-app="myFirstModule">
+            <div ng-controller="EmpCtrl">
+                <input type="name" ng-model="searchText"/>
+                <table>
+                    <tr ng-repeat="emp in empList | filter:searchText">
+                        <td>{{emp.name}}</td>
+                        <td>{{emp.desig}}</td>
+                    </tr>
+                </table>
+                <br/><hr/>
+                <input type="name" ng-model="search.$"/>
+                <table>
+                    <tr ng-repeat="emp in empList | filter:search">
+                        <td>{{emp.name}}</td>
+                        <td>{{emp.desig}}</td>
+                    </tr>
+                </table>
+                <br/><hr/>
+                <input type="name" ng-model="search.name"/>
+                <table>
+                    <tr ng-repeat="emp in empList | filter:search">
+                        <td>{{emp.name}}</td>
+                        <td>{{emp.desig}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/sixth.js"></script>
+    </body>
+</html>

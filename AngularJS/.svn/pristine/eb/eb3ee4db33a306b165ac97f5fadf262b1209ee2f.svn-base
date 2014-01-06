@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-app="">
+            <input type="text" ng-model="data.message"/>
+            <h1>{{data.message}}</h1>
+            <div ng-controller="firstCtrl">
+                <input type="text" ng-model="data.message"/>
+                <h1>{{data.message}}</h1>
+            </div>
+            <div ng-controller="secondCtrl">
+                <input type="text" ng-model="data.message"/>
+                <h1>{{data.message}}</h1>
+            </div>
+
+            <!-- the complete object got modified, just like java - objects are passed by reference -->
+            <!-- here the data.message is picked from the above scope into both controllers (inherited actually)-->
+
+            <!-- below we'll pass fields/arguments by value -->
+            <input type="text" ng-model="message"/>
+            <h1>{{message}}</h1>
+            <div ng-controller="firstCtrl">
+                <input type="text" ng-model="message"/>
+                <h1>{{message}}</h1>
+            </div>
+            <div ng-controller="secondCtrl">
+                <input type="text" ng-model="message"/>
+                <h1>{{message}}</h1>
+            </div>
+
+
+            <div ng-controller="firstCtrl">
+                <input type="text" ng-model="x.message"/>
+                <h1>{{x.message}}</h1>
+            </div>
+            <div ng-controller="secondCtrl">
+                <input type="text" ng-model="x.message"/>
+                <h1>{{x.message}}</h1>
+            </div>
+        </div>
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/second.js"></script>
+    </body>
+</html>

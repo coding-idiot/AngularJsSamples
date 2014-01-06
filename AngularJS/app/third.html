@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>TODO write content</div>
+
+        <div ng-app="myFirstModule">
+            <div ng-controller="firstCtrl">
+                <input type="text" ng-model="data.message"/>
+                <h1>{{data.message}}</h1>
+                <input type="text" ng-model="data.anothermessage"/>
+                <h1>{{data.anothermessage}}</h1>
+            </div>
+
+            <div ng-controller="secondCtrl">
+                <input type="text" ng-model="data.message"/>
+                <h1>{{data.message}}</h1>
+                <input type="text" ng-model="a.anothermessage"/>
+                <h1>{{data.anothermessage}}</h1>
+            </div>
+        </div>
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/third.js"></script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Learning Angular JS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/app.css"/>
+    </head>
+    <body>
+        <div ng-app="">
+            <div ng-controller="myFirstCtrl">
+                <input type="text" ng-model="mymodel.message"/>
+                <h1>{{mymodel.message+" World!"}}</h1>
+                <h3>{{"nitin" == "nsitin"}}</h3>
+            </div>
+        </div>
+        
+        
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/first.js"></script>
+    </body>
+</html>
