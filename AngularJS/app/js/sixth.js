@@ -13,9 +13,9 @@ myModule.factory('DataService', function() {
         {name: 'D', desig: 'ee'},
         {name: 'E', desig: 'ff'},
         {name: 'F', desig: 'dd'}
-    ]
+    ];
     return Employees;
-})
+});
 
 function EmpCtrl($scope, DataService) {
     $scope.empList = DataService.data;

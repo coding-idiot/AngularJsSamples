@@ -5,8 +5,8 @@
  */
 var myModule = angular.module("myFirstModule", []);
 myModule.factory('DataService', function() {
-    return {message: "I'm message from a service"}
-})
+    return {message: "I'm message from a service"};
+});
 
 function firstCtrl($scope, DataService) {
     $scope.data = DataService;

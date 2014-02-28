@@ -8,15 +8,15 @@ myModule.factory('DataService', function() {
     return {message: "I'm message from a service"}
 })
 
-myModule.filter('lower',function(){
-    return function(msg){
+myModule.filter('lower', function() {
+    return function(msg) {
         return msg.toLowerCase();
     }
 });
 
-myModule.filter('concatenate',function(DataService){
-    return function(msg){
-        return msg.toLowerCase()+DataService.message.toUpperCase();
+myModule.filter('concatenate', function(DataService) {
+    return function(msg) {
+        return msg.toLowerCase() + DataService.message.toUpperCase();
     }
 })
 
@@ -29,7 +29,7 @@ function secondCtrl($scope, DataService) {
     $scope.reverseMessage = function() {
         return $scope.data.message.split("").reverse().join("");
     }
-    $scope.capitalize=function(message){
+    $scope.capitalize = function(message) {
         return message.toUpperCase();
     }
 }
