@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+
+Isolated Scope : =
+Unlike the @ operator, which expects a string attribute, the = operator expects an object which it can bind to. 
+A binding is set up both ways, so that an template with an will bind to the controller object, allowing modification.
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="AppCtrl">
+            <input type="text" ng-model="ctrlFlavour"/>
+            <div drink flavour="ctrlFlavour"></div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                var app = angular.module('myApp', []);
+                app.controller('AppCtrl', function($scope) {
+                    $scope.ctrlFlavour = "apple";
+                });
+                app.directive('drink', function() {
+                    return {
+                        scope: {
+                            xyz: "=flavour"
+                        },
+                        template: "<div> I like to drink "
+                                + "{{xyz}}"
+                                + "<input type='text' ng-model='xyz'/>"
+                                + "</div>"
+                    }
+                })
+        </script>
+    </body>
+</html>

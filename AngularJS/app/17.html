@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+
+Nested Controllers
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>TODO write content - Is it even working ?</div>
+
+    <country>
+        <state>
+            <city>
+            </city>
+        </state>
+    </country>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.directive('country', function() {
+            return {
+                restrict: 'E',
+                controller: function($scope) {      //Writing anything here doesn't work, it should be $scope ONLY!!
+                    this.sayCountry = function() {
+                        console.log("Saying Country");
+                    };
+                }
+            }
+        });
+
+        app.directive('state', function() {
+            return {
+                restrict: 'E',
+                controller: function() {
+                    this.sayState = function() {
+                        console.log("Saying State");
+                    };
+                }
+            }
+        });
+
+        app.directive('city', function() {
+            return {
+                restrict: 'E',
+                require: ["^state", '^country'], // ^ searches for controller in the parent elements
+                link: function(scope, elm, attrs, ctrls) {
+                    ctrls[0].sayState();
+                    ctrls[1].sayCountry();
+//                    ctrls[0].sayCountry();
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

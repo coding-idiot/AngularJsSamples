@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+
+Promises - $q
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="AppCtrl"></div>
+
+        <div ng-controller="SecondCtrl"></div>
+
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+            var app = angular.module('myApp', []);
+
+            app.controller('AppCtrl', function($scope, $q) {
+                var defer = $q.defer();
+
+                defer.promise
+                        .then(function() {
+                            console.log('first');
+                        })
+                        .then(function() {
+                            console.log('second');
+                        });
+
+                defer.resolve();        // This is when the promises gets fired, then functions are fired one after the another
+
+                $scope.model = {
+                    message: "This is my app"
+                }
+            });
+
+            app.controller('SecondCtrl', function($scope, $q) {
+                var d = $q.defer();
+                d.promise
+                        .then(function(name) {
+                            console.log("Name is " + name);
+                            return 24;
+                        })
+                        .then(function(age) {
+                            console.log("Age is " + age);
+                        })
+                        .then(function() {
+                            console.log("Third");
+                        });
+
+//                d.resolve();
+                d.resolve("Nitin");
+            });
+        </script>
+    </body>
+</html>

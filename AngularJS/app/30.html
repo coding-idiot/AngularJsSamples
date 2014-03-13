@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+
+Resolve - used in routes
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+    </head>
+    <body>
+    <ng-view></ng-view>
+
+
+    <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+    <script>
+var app = angular.module('myApp', ['ngRoute']);
+
+app.config(function($routeProvider) {
+    $routeProvider.when("/", {
+        templateUrl: "app.html",
+        controller: 'AppCtrl',
+        resolve: {//This means wait, complete this first before fetching the template and loading the controller
+            app: function($q, $timeout) {
+                var def = $q.defer();
+                $timeout(function() {
+                    def.resolve();
+                }, 2000);
+
+                return def.promise;     //If you don't return, it doesn't wait!
+            }
+        }
+    })
+});
+
+app.controller('AppCtrl', function($scope) {
+    $scope.model = {
+        message: "this is a message!"
+    }
+});
+    </script>
+</body>
+</html>

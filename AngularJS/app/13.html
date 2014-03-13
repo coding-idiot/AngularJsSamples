@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+
+Directive talk to Controllers
+
+-->
+
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="myCtrl">
+            <input type="number" ndirective="5" ng-model="nmodel"/>
+        </div>
+    
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>        
+        <script>
+                var app = angular.module('myApp', []);
+                app.controller("myCtrl", function($scope) {
+                    $scope.nmodel = 0;
+                    $scope.inc = function(value) {
+                        if (value) {
+                            $scope.nmodel = $scope.nmodel + value;
+                        } else {
+                            $scope.nmodel++;
+                        }
+                    };
+                });
+                app.directive('ndirective', function() {
+                    return function($scope, element, attrs) {
+                        element.bind('click', function() {
+//                            $scope.$apply("inc()"); //this will find the function named inc in the scope and call it.
+                            $scope.$apply("inc(" + attrs.ndirective + ")");
+                        });
+                    };
+                });
+        </script>
+    </body>
+</html>

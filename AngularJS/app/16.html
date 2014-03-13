@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+
+Directive inside directive
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+    <clock timezone="IST"></clock>
+    <panel>
+        <clock timezone="GMT"></clock>
+    </panel>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.directive('panel', function() {
+            return {
+                restrict: 'E',
+                transclude: true,
+                template: "<div class='title'>This is panel title</div><div ng-transclude></div><div class='footer'>This is panel footer</div>"
+            }
+        });
+        app.directive('clock', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    timezone: "@"        //indicating that is of type string
+                },
+                template: "<span> 12.00 pm {{timezone}}</span>"
+            }
+        });
+    </script>
+</body>
+</html>

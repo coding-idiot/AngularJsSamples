@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+
+Alternative thinking to Controllers
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="AppCtrl">
+            <button ng-click="sayHello()">Say Hello</button>        <!-- doesn't work, since there's no such function defined in the scope -->
+            <button ng-click="sayHi()">Say Hi</button>
+            <button ng-click="ctrl.sayHello()">Say Hello</button>
+        </div>
+
+        <div ng-controller="DemoCtrl as d">
+            <input type="text" ng-model="name"/>
+            <button ng-click="d.sayWelcome(name)">Click to welcome</button>
+        </div>
+
+        <!--<script src="//code.jquery.com/jquery-2.0.0.min.js"></script>-->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                var app = angular.module('myApp', []);
+                app.controller('AppCtrl', function($scope) {
+                    this.sayHello = function() {
+                        console.log("Hello!");
+                    };
+                    $scope.sayHi = function() {
+                        console.log("Hi!");
+                    };
+                    return $scope.ctrl = this;
+                });
+                app.controller("DemoCtrl", function($scope) {
+                    this.sayWelcome = function(name) {
+                        console.log("Welcome : " + name);
+                    };
+                });
+        </script>
+    </body>
+</html>

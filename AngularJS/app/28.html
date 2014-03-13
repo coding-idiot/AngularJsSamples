@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+
+$routeParams - redirectTo
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>
+            <ng-view></ng-view>
+        </div>
+
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+        <script>
+
+            var app = angular.module('myApp', ['ngRoute']);
+
+            app.config(function($routeProvider) {
+                $routeProvider
+                        .when("/",
+                                {
+                                    template: "This is the Home Template",
+                                    controller: "AppCtrl"
+                                })
+                        .when("/pizza/:crust/:toppings",
+                                {
+                                    redirectTo: function(routeParams, path, search) {
+//                                        http://localhost:8383/AngularJS/28.html#/pizza/deep/pesadf?search=szy&terms=abc
+                                        console.log(routeParams);
+                                        console.log(path);
+                                        console.log(search);
+                                        if (routeParams.crust === 'deep') {
+                                            return "/deep";
+                                        } else {
+                                            return "/";
+                                        }
+                                    }
+                                });
+                $routeProvider.otherwise({
+                    redirectTo: "/"
+                });
+                $routeProvider.when("/deep",
+                        {
+                            template: "This is just deep"
+                        });
+            })
+
+            app.controller('AppCtrl', function($scope, $routeParams) {
+                console.log('Controller is initialized');
+            });
+        </script>
+    </body>
+</html>

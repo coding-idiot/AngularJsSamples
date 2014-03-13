@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+
+Isolated Scope - @
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="AppCtrl">
+            <div drink flavour='banana'></div>
+            <div drink2 flavour='strawberry'></div>
+
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('AppCtrl', function($scope) {
+
+            });
+            app.directive('drink', function() {
+                return {
+                    scope: {
+                    },
+                    template: "<div> I like to drink {{flavour}}</div>",
+                    link: function(scope, elem, attrs) {
+                        scope.flavour = attrs.flavour;
+                    }
+                }
+            });
+
+            app.directive('drink2', function() {
+                return {
+                    scope: {
+                        flavour: "@"
+                    },
+                    template: "<div> I like to drink {{flavour}}</div>",
+                }
+            });
+        </script>        
+    </body>
+</html>

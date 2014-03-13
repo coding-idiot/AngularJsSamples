@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+
+$routeParams
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/ng-template" id="template.html">
+            <h1>{{model.message}}</h1>
+        </script>
+        <script type="text/ng-template" id="app.html">
+            <h1>Address</h1>
+            <p>{{model.address}}</p>
+        </script>
+    </head>
+    <body>
+        <div>
+            <ng-view></ng-view>
+        </div>
+
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+        <script>
+
+var app = angular.module('myApp', ['ngRoute']);
+
+app.config(function($routeProvider) {
+    $routeProvider.when('/:message',
+            {
+                templateUrl: 'template.html',
+                controller: 'AppCtrl'
+            }).when('/:country/:state/:city',
+            {
+                templateUrl: 'app.html',
+                controller: 'AppCtrl'
+            });
+});
+
+//http://localhost:8383/AngularJS/27.html/#/hello%20this%20is%20me
+
+app.controller('AppCtrl', function($scope, $routeParams) {
+    $scope.model = {
+        message: $routeParams.message,
+        address: $routeParams.country + "<br>" + $routeParams.state + "<br>" + $routeParams.city
+    }
+});
+        </script>
+    </body>
+</html>

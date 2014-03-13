@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+
+$index, $log and $event
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>
+            <div ng-repeat="item in 'abcde'.split('')"
+                 ng-click="ev = $event;
+                         myLog.debug(ev);myLog.info(ev)">
+                {{$index}}.{{item}}
+                <!--{{ev}}-->
+                {{ev.pageX}}
+            </div>
+        </div>
+
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                    var app = angular.module('myApp', []);
+                    app.controller('AppCtrl', function($scope) {
+
+                    });
+                    app.directive('dumpPassword', function() {
+                    });
+
+                    app.config(function($logProvider) {
+                        $logProvider.debugEnabled(false);       //disbaled debug, but info & warnings etc are there
+                    });
+
+                    app.run(function($rootScope, $log) {
+                        $rootScope.myLog = $log;
+                    });
+        </script>
+    </body>
+</html>

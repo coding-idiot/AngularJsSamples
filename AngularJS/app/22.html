@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+
+angular.element
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <!--<dump-password>Is it working ?</dump-password>-->
+
+    <dump></dump>
+
+    <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('AppCtrl', function($scope) {
+
+        });
+        app.directive('dumpPassword', function() {
+            var validElm = angular.element("<div>{{passwd}}</div>");
+            return {
+                restrict: 'E',
+                replace: true,
+                template: "<div><input type='text' ng-model='passwd'/><div>{{passwd}}</div></div>",
+//                compile: function(tElement) {
+//                    tElement.append(validElm);
+//                    var link = function(scope, elem, attrs) {
+//                        scope.$watch("passwd", function(newValue) {
+//                            if (newValue === 'passwd') {
+//                                elem.children().eq(1).toggleClass("red");
+//                            }
+//                        });
+//                    }
+//                    return link;
+//                }
+                compile: function(tElement) {
+                    tElement.append(validElm);
+                    var link = function(scope, elem, attrs) {
+                        scope.$watch("passwd", function(newValue) {
+                            if (newValue === 'passwd') {
+//                                elem.children().eq(1).toggleClass("red");
+                                    validElm.toggleClass("red");
+                            }
+                        });
+                    }
+                    return link;
+                }
+
+//                link: function(scope, elem, attrs) {
+//                    scope.$watch("passwd", function(newValue) {
+//                        if (newValue === 'passwd') {
+////                            console.log("Password new value : " + newValue);
+////                            console.log(elem.children());
+////                            console.log(elem.children().eq(1));
+//                            elem.children().eq(1).toggleClass("red");
+//                        }
+//                    });
+//                }
+            }
+        });
+        app.directive('dump', function() {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: "<div><input type='text' ng-model='passwd'/><div>{{passwd}}</div></div>",
+                link: function(scope, elem, attrs) {
+                    scope.$watch("passwd", function(newValue) {
+                        if (newValue === 'passwd') {
+//                            console.log("Password new value : " + newValue);
+//                            console.log(elem.children());
+//                            console.log(elem.children().eq(1));
+                            elem.children().eq(1).toggleClass("red");
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+    <style>
+        .red{
+            background-color: red;
+            padding: 8px;
+            border-radius: 5px;
+        }
+    </style>
+</body>
+</html>

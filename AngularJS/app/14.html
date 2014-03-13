@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+
+Directive 2 directive communication
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>
+            <input type="number" ng-model="nmodel"/>
+            <ndirective in1></ndirective>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                var app = angular.module('myApp', []);
+                app.directive('ndirective', function() {
+                    return {
+                        restrict: 'E',
+                        controller: function($scope) {
+                            $scope.nmodel = 0;
+                            this.inc1 = function() {
+                                $scope.nmodel++;
+                            };
+                            this.inc5 = function() {
+                                $scope.nmodel = $scope.nmodel + 5;
+                            };
+                        },
+                        link: function($scope, element) {
+                            console.log("Don't want to do anything!");
+                        }
+                    };
+                });
+                app.directive('in1', function() {
+                    return {
+//                        restrict:'A',
+                        require: 'ndirective',
+                        link: function($scope, element, attrs, mainCtrl) {
+//                            element.bind('click', function() {
+                                mainCtrl.inc1();
+                                mainCtrl.inc5();
+//                            });
+                        }
+                    };
+                });
+        </script>
+    </body>
+</html>

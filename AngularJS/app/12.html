@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="myApp"> 
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body ng-controller="genericCtrl">
+        <input ng-model="greet" type="text"/>
+
+        {{greet}}
+        {{greet| reverse}}
+        {{greet| reverse:true}}
+        {{greet| reverse:false}}
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                var app = angular.module('myApp', []);
+                app.filter('reverse', function() {
+                    return function(input, upper) {
+                        var x = "";
+                        for (var i = 0; i < input.length; i++) {
+                            x = input.charAt(i) + x;
+                        }
+
+//                        console.log(upper);
+//                        console.log(upper && upper === true);
+
+                        if (upper && upper === true) {
+                            x = x.toUpperCase();
+                        }
+                        return x;
+                    };
+                });
+                function genericCtrl($scope) {
+                    $scope.greet = "";
+                }
+        </script>
+    </body>
+</html>

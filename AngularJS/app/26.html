@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+
+$routeProvider
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+    </head>
+    <body>
+        <div>
+            <ng-view></ng-view>
+        </div>
+
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+        <script>
+
+var app = angular.module('myApp', ['ngRoute']);
+
+app.config(function($routeProvider) {
+    $routeProvider.when("/",
+            {
+                templateUrl: 'app.html',
+                controller: "AppCtrl"
+            });
+});
+app.controller('AppCtrl', function($scope) {
+    $scope.model = {
+        message: "hey! this is my App"
+    }
+});
+        </script>
+    </body>
+</html>

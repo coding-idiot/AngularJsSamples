@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+
+Directive handling RouteError
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/ng-template" id="xyz.html">
+            <h1>{{scope.message}}</h1>
+        </script>
+        <script type="text/ng-template" id="abc.html">
+            <h1>ABC - {{scope.message}}</h1>
+        </script>
+    </head>
+    <body>
+        <div ng-controller="AppCtrl">
+            <a ng-click="$location.path('/abc')">Change Route</a>
+            <error ng-show="isError"></error>
+            <ng-view></ng-view>
+        </div>
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+        <script>
+                var app = angular.module('myApp', ['ngRoute']);
+
+                app.config(function($routeProvider) {
+                    $routeProvider
+                            .when('/xyz', {
+                                templateUrl: 'xyz.html',
+                                controller: "ViewCtrl",
+                                resolve: {
+                                    loadData: ctrl.loadData
+                                }
+                            })
+                            .when('/abc', {
+                                templateUrl: 'abc.html',
+                                controller: "AbcCtrl",
+                                resolve: {
+                                    nData: abcCtrl.nData
+                                }
+                            })
+                });
+//                http://localhost:8383/AngularJS/33.html#/xyz - Use this URL to test this
+
+                var abcCtrl = app.controller("AbcCtrl", function($scope, nData, $template) {
+                    $scope.model = {
+                        message: "This is from the ABC Controller"
+                    }
+                    console.log(nData);      //loadData is from the route resolver
+                    console.log($template);
+                });
+                abcCtrl.nData = function($q, $timeout) {
+                    var d = $q.defer();
+                    $timeout(function() {
+                        d.resolve({message: 'success'});
+                    }, 2000);
+                    return d.promise;
+                };
+
+
+                app.directive('error', function($rootScope) {
+                    return {
+                        restrict: 'E',
+                        link: function(scope) {
+                            $rootScope.$on('$routeChangeError', function(event, current, provider, rejection) {
+                                scope.isError = true;
+                                scope.errorMessage = rejection;
+                            });
+                        },
+                        template: "<div>Something went Wrong : {{errorMessage}}</div>"
+                    }
+                });
+
+                app.controller('AppCtrl', function($rootScope, $route, $location, $scope) {        //AppCtrl handles the $routeChangeError on $rootScope
+                    $rootScope.$on('$routeChangeError', function(event, current, provider, rejection) {
+//        ‘event’ is an object describing the environment surrounding the fired event, ‘current’ is the current route, ‘previous’ is the route that existed before this one was arrived at, and ‘rejection’ is a custom rejection message, which here is coming from the defer.reject() parameter.
+//
+//
+//http://localhost:8383/AngularJS/32.html#/xyz
+
+                        console.log("Unable to load data, Please try again later from $routeChangError");
+                        console.log("Custom Message : " + rejection);
+                    });
+                    $rootScope.$on("$routeChangeStart",
+                            function(event, current, provider, rejection) {
+                                console.log($scope, $rootScope, $route, $location);
+                            });
+                    $rootScope.$on("$routeChangeSuccess",
+                            function(event, current, previous, rejection) {
+                                console.log($scope, $rootScope, $route, $location);
+                            });
+                });
+                var ctrl = app.controller("ViewCtrl", function($scope, $q, $route, $rootScope) {
+                    $scope.model = {
+                        message: "It'll never show up"
+                    }
+                });
+
+                ctrl.loadData = function($q, $timeout) {
+                    var defer = $q.defer();
+                    $timeout(function() {
+                        defer.reject("Some error occured on server and the data wasn't fetched, the view shouldn't be loaded, instead an error should be shown");
+                    }, 2000);
+                    return defer.promise;
+                };
+        </script>
+    </body>
+</html>

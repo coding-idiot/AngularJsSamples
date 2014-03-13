@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        
+        <form novalidate ng-controller="formController">
+            <textarea neditable ng-model="interests">Some Random Content Here</textarea>
+            <div>
+                <h3>Interests</h3>
+                {{interests}}
+            </div>
+        </form>
+            
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+                    var app = angular.module('myApp',[]);
+                    app.directive('neditable', function() {
+                        return {
+                            require: 'ngModel',
+                            link: function(scope, elm, attrs, ctrl) {
+                                elm.on('blur', function() {
+                                    console.log('got the blur through a directive');
+                                });
+                            }
+                        };
+                    });
+                    app.controller('formController', function() {
+                        console.log('Does nothing as of now, just loads');
+                    });
+        </script>
+    </body>
+</html>

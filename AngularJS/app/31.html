@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+
+Resolve conventions
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script type="text/ng-template" id="app.html">
+            <h1>{{model.message}}</h1>
+        </script>
+    </head>
+    <body>
+        <div>
+            <ng-view></ng-view>
+        </div>
+        <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>   <!-- Note : It has to be loaded after angular.js -->
+        <script>
+            var app = angular.module('myApp', ['ngRoute']);
+
+            app.config(function($routeProvider) {
+                $routeProvider.when("/", {
+                    templateUrl: "app.html",
+                    controller: 'AppCtrl',
+                    resolve: {//This means wait, complete this first before fetching the template and loading the controller
+                        loadData: ctrl.loadData,
+                        prepData: ctrl.prepData     //View is fetched and controller is loaded only when both are resolved
+                    }
+                })
+            });
+
+            var ctrl = app.controller('AppCtrl', function($scope, $route) {
+                console.log($route);
+                $scope.model = {
+                    message: "this is a message!"
+                }
+            });
+            ctrl.loadData = function($q, $timeout) {
+                var defer = $q.defer();
+                $timeout(function() {
+                    defer.resolve();
+                }, 1000);
+                return defer.promise;
+            };
+            ctrl.prepData = function($q, $timeout) {
+                var defer = $q.defer();
+                $timeout(function() {
+                    defer.resolve("xyz");       //can be seen as $route.current.locals in the controller
+                }, 2000);
+                return defer.promise;
+            };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+
+Transculsion (Insertion of something into another) 
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body ng-controller="AppCtrl">
+    <panel>
+        <button>Click Me</button>
+    </panel>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script>
+            var app = angular.module('myApp', []);
+            app.controller('AppCtrl', function() {
+
+            });
+            app.directive('panel', function() {        //can return a function (link) or an object
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    template: '<span> This is my custom span</span><div class="panel" ng-transclude>this is my div</div><span>Another span follows</span>'
+                }
+            });
+    </script>
+</body>
+</html>

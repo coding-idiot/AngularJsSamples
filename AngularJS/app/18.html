@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+
+Directive talk to Controller - Isolated scope
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div ng-controller="Ctrl">
+            <kid done="taskComplete(nn)"></kid>
+            <kid done="taskComplete(nn)"></kid>
+            <kid done="taskComplete(nn)"></kid>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('Ctrl', function($scope) {
+                $scope.taskComplete = function(taskName) {
+                    console.log("Task is complete : " + taskName);
+                }
+            });
+            app.directive('kid', function() {
+                return {
+                    restrict: 'E',
+                    scope: {
+                        done: "&"
+                    },
+                    template: "<div class='panel'>\n\
+                            <input type='text' ng-model='task'/>\n\
+                            {{task}}"
+                            +" <button ng-click=done({nn:task})> Done</button>"
+                            +" </div>"
+                }
+            })
+        </script>
+    </body>
+</html>

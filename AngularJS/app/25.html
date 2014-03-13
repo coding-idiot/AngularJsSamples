@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+
+$templateCache
+
+-->
+<html ng-app="myApp">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+
+        <!--  Below script tag can be anywhere inside the ng-app -->
+        <script type="text/ng-template" id="zippy.html"> 
+            <div>
+                <h3 ng-click="toggleVisibility()">{{title}}</h3>
+                <div ng-show="isContentVisible" ng-transclude></div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="xyz.html">
+            hey! This is xyz template
+        </script>
+        <!-- The above script tag can be removed, if zipppy.html is to be served from server. Angular will automatically make the XMLHttpRequest for it. -->
+    </head>
+    <body>
+        <div ng-controller="AppCtrl">
+            <zippy title="My Zipppy Title">
+                The content is all about this.
+            </zippy>
+        </div>
+
+    <abc></abc>
+
+    <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script>
+            var app = angular.module('myApp', []);
+            app.controller('AppCtrl', function($scope) {
+            });
+
+            app.run(function($templateCache) {
+                //We can also put into templateCache in the run() of app
+                $templateCache.put("abc", "<div>This is another ABC template</div");
+            });
+
+            app.directive('zippy', function($templateCache) {
+                console.log($templateCache.get("zippy.html"));
+                console.log($templateCache.get("xyz.html"));
+                
+                return {
+                    restrict: 'E',
+                    transclude: true,
+                    scope: {
+                        title: "@"
+                    },
+                    link: function(scope, elem, attrs) {
+                        scope.isContentVisible = false;
+                        scope.toggleVisibility = function() {
+                            scope.isContentVisible = !scope.isContentVisible;
+                        }
+                    },
+                    templateUrl: "zippy.html"
+                }
+            });
+
+            app.directive("abc", function($templateCache) {
+                return {
+                    restrict: 'E',
+                    template: $templateCache.get("abc")
+                }
+            })
+    </script>
+</body>
+</html>
